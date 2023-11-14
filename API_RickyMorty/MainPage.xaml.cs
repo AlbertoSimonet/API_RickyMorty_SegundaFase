@@ -1,55 +1,28 @@
-﻿using Newtonsoft.Json;
+﻿using API_RickyMorty.Service;
+using API_RickyMorty.ViewModel;
 
-namespace API_RickyMorty;
-
-public partial class MainPage : ContentPage
+namespace API_RickyMorty
 {
-    public MainPage()
+    public partial class MainPage : ContentPage
     {
-        InitializeComponent();
-        listaDatos();
+        private readonly CharactersViewModel _viewModel;
 
-    }
-    public async Task listaDatos()
-    {
-
-        List<Character> characters = new List<Character>();
-
-        try
+        public MainPage()
         {
-            using (var httpClient = new HttpClient())
-            {
-                var urlApi = "https://rickandmortyapi.com/api/character";
-                var respuesta = await httpClient.GetStringAsync(urlApi);
-                var respuestaApi = JsonConvert.DeserializeObject<RespuestaApi>(respuesta);
-                characters = respuestaApi.Results;
-            }
+            InitializeComponent();
+            _viewModel = new CharactersViewModel(new CharacterApiService());
+            BindingContext = _viewModel;
         }
-        catch (HttpRequestException ex)
-        {
-            Console.WriteLine("Error en el link de la API: " + ex);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Error diferente" + ex);
-        }
-        listaPersonajes.ItemsSource = characters;
-    }
 
-    public class RespuestaApi
-    {
-        public List<Character> Results { get; set; }
-    }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            LoadCharacters();
+        }
 
-    public class Character
-    {
-        public string Name { get; set; }
-        public string Species { get; set; }
-        public Origin Origin { get; set; }
-        public string Image { get; set; }
-    }
-    public class Origin
-    {
-        public string name { get; set; }
+        private async void LoadCharacters()
+        {
+            await _viewModel.LoadCharactersAsync();
+        }
     }
 }

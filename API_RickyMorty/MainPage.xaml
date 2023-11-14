@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="API_RickyMorty.MainPage">
 
-    <ListView x:Name="listaPersonajes">
+    <ListView ItemsSource="{Binding Characters}">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
@@ -11,8 +11,8 @@
                         <Image Source="{Binding Image}" WidthRequest="80" HeightRequest="80" Aspect="AspectFit" />
                         <StackLayout VerticalOptions="Center" Spacing="2">
                             <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" />
-                            <Label Text="{Binding Species}" FontSize="Small" TextColor="white" />
-                            <Label Text="{Binding Origin.name}" FontSize="Small" TextColor="white" />
+                            <Label Text="{Binding Species}" FontSize="Small" TextColor="Gray" />
+                            <Label Text="{Binding Origin.name}" FontSize="Small" TextColor="Gray" />
                         </StackLayout>
                     </StackLayout>
                 </ViewCell>

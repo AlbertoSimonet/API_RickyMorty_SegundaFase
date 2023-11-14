@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using API_RickyMorty.Model;
 using API_RickyMorty.Service;
-using System.Threading.Tasks;
 
 namespace API_RickyMorty.ViewModel
 {
