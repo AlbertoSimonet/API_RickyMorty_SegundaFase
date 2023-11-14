@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="API_RickyMorty.EarthC137Page"
              Title="EarthC137Page">
-    <ListView x:Name="listaEarthC137">
+    <ListView ItemsSource="{Binding Characters}">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>

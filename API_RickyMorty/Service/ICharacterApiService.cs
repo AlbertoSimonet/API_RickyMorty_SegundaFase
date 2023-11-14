@@ -1,5 +1,4 @@
-﻿
-using API_RickyMorty.Model;
+﻿using API_RickyMorty.Model;
 
 
 namespace API_RickyMorty.Service

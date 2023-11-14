@@ -1,56 +1,27 @@
-using Newtonsoft.Json;
+using API_RickyMorty.Service;
+using API_RickyMorty.ViewModel;
 
 namespace API_RickyMorty;
 
 public partial class EarthRDPage : ContentPage
 {
+    private readonly OriginViewModel _viewModel;
+
     public EarthRDPage()
     {
         InitializeComponent();
-        listaDatos();
-
-    }
-    public async Task listaDatos()
-    {
-
-        List<Character> personajesOrigenEarthRD = new List<Character>();
-
-        try
-        {
-            using (var httpClient = new HttpClient())
-            {
-                var urlApi = "https://rickandmortyapi.com/api/character";
-                var respuesta = await httpClient.GetStringAsync(urlApi);
-                var respuestaApi = JsonConvert.DeserializeObject<RespuestaApi>(respuesta);
-                personajesOrigenEarthRD = respuestaApi.Results.Where(personaje => personaje.Origin.name.Equals("Earth (Replacement Dimension)")).ToList();
-            }
-        }
-        catch (HttpRequestException ex)
-        {
-            Console.WriteLine("Error en el link de la API");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Error diferente");
-        }
-        listaEarthRD.ItemsSource = personajesOrigenEarthRD;
+        _viewModel = new OriginViewModel(new CharacterApiService());
+        BindingContext = _viewModel;
     }
 
-    public class RespuestaApi
+    protected override void OnAppearing()
     {
-        public List<Character> Results { get; set; }
+        base.OnAppearing();
+        LoadCharacters();
     }
 
-    public class Character
+    private async void LoadCharacters()
     {
-        public string Name { get; set; }
-        public string Species { get; set; }
-        public Origin Origin { get; set; }
-        public string Image { get; set; }
-    }
-
-    public class Origin
-    {
-        public string name { get; set; }
+        await _viewModel.LoadCharactersAsync("Earth (Replacement Dimension)");
     }
 }
